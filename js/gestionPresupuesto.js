@@ -3,8 +3,15 @@
 // Variable global
 let presupuesto = 0;
 
-function actualizarPresupuesto() {
-    // TODO
+function actualizarPresupuesto(valor) {
+    if (valor >= 0) {
+        presupuesto = valor;
+    }
+    else {
+        alert("El valor no puede ser negativo.");
+        valor = -1;
+    }
+    return valor;
 }
 
 function mostrarPresupuesto() {
