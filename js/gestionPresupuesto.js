@@ -4,12 +4,12 @@
 let presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
-    if (valor >= 0) {
-        presupuesto = valor;
+    if (isNaN(valor)) {
+        valor = -1;
+        alert("El valor no puede ser negativo.");
     }
     else {
-        alert("El valor no puede ser negativo.");
-        valor = -1;
+        presupuesto = valor;
     }
     return valor;
 }
