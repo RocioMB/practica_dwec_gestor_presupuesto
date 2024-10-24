@@ -44,7 +44,7 @@ function CrearGasto(descripcion, valor) {
 }
 
 function listarGastos() {
-    //TODO
+    return gastos;
 }
 
 function anyadirGasto() {
