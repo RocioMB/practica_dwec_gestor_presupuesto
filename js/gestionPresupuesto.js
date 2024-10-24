@@ -55,8 +55,12 @@ function listarGastos() {
     return gastos;
 }
 
-function anyadirGasto() {
-    //TODO
+function anyadirGasto(gasto) {
+    CrearGasto.prototype.id = idGasto;
+
+    idGasto++;
+
+    gastos.push(gasto);
 }
 
 function borrarGasto() {
