@@ -72,7 +72,11 @@ function borrarGasto(idABorrar) {
 }
 
 function calcularTotalGastos() {
-    //TODO
+    let total = 0;
+    for (let gasto of gastos){
+        total += gasto.valor;
+    }
+    return total;
 }
 
 function calcularBalance() {
