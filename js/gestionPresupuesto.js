@@ -19,12 +19,20 @@ function mostrarPresupuesto() {
     return texto;
 }
 
-function CrearGasto(descripcion, valor) {
+function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     if (isNaN(valor) || valor < 0) {
         valor = 0;
     }
+
+    let auxFecha = Date.parse(fecha);
+    if (isNaN(auxFecha)){
+        auxFecha = Date.now();
+    }
+
     this.descripcion = descripcion;
     this.valor = valor;
+    this.fecha = auxFecha;
+    this.etiquetas = etiquetas;
 
     this.mostrarGasto = function() {
         return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
