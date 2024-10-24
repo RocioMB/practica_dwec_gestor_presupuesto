@@ -80,7 +80,7 @@ function calcularTotalGastos() {
 }
 
 function calcularBalance() {
-    //TODO
+    return presupuesto - calcularTotalGastos();
 }
 
 
