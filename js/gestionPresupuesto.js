@@ -56,15 +56,19 @@ function listarGastos() {
 }
 
 function anyadirGasto(gasto) {
-    CrearGasto.prototype.id = idGasto;
+    gasto.id = idGasto;
 
     idGasto++;
 
     gastos.push(gasto);
 }
 
-function borrarGasto() {
-    //TODO
+function borrarGasto(idABorrar) {
+    for (let i = 0; i < gastos.length; i++) {
+        if (gastos[i].id == idABorrar) {
+            gastos.splice(i, 1);
+        }
+    }
 }
 
 function calcularTotalGastos() {
