@@ -63,7 +63,10 @@ Etiquetas:
     }
 
     this.actualizarFecha = function(fecha) {
-
+        let fechaParseada = Date.parse(fecha);
+        if (!isNaN(fechaParseada)){
+            this.fecha = fechaParseada;
+        }
     }
 
     this.anyadirEtiquetas = function (...etiquetasNuevas) {
