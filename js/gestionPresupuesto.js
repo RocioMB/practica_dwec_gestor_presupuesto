@@ -73,6 +73,15 @@ Etiquetas:
             }
         }
     }
+
+    this.borrarEtiquetas = function (...etiquetasABorrar) {
+        for (let etiqueta of etiquetasABorrar) {
+            let posicion = this.etiquetas.indexOf(etiqueta, 0);
+            if (posicion != -1) {
+                this.etiquetas.splice(posicion, 1);
+            }
+        }
+    }
 }
 
 function listarGastos() {
