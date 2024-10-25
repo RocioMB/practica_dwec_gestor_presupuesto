@@ -61,6 +61,18 @@ Etiquetas:
         }
         return texto;
     }
+
+    this.actualizarFecha = function(fecha) {
+
+    }
+
+    this.anyadirEtiquetas = function (...etiquetasNuevas) {
+        for (let etiqueta of etiquetasNuevas) {
+            if(!this.etiquetas.includes(etiqueta, 0)) {
+                this.etiquetas.push(etiqueta);
+            }
+        }
+    }
 }
 
 function listarGastos() {
