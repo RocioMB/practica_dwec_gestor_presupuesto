@@ -85,6 +85,19 @@ Etiquetas:
             }
         }
     }
+
+    this.obtenerPeriodoAgrupacion = function (periodo) {
+        let fechaDividida = fecha.split('-');
+        let periodoAgrupacion = fechaDividida[0];
+
+        if(periodo == "mes") {
+            periodoAgrupacion += "-" + fechaDividida[1];
+        }
+        if(periodo == "dia") {
+            periodoAgrupacion += "-" + fechaDividida[1] + "-" + fechaDividida[2];
+        }
+        return periodoAgrupacion;
+    }
 }
 
 function listarGastos() {
@@ -117,6 +130,14 @@ function calcularTotalGastos() {
 
 function calcularBalance() {
     return presupuesto - calcularTotalGastos();
+}
+
+function filtrarGastos() {
+    //TODO
+}
+
+function agruparGastos() {
+    //TODO
 }
 
 
