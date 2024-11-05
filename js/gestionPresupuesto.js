@@ -25,7 +25,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     let auxFecha = Date.parse(fecha);
-    if (isNaN(auxFecha)){
+    if (isNaN(auxFecha)) {
         auxFecha = Date.now();
     }
 
@@ -34,23 +34,23 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.fecha = auxFecha;
     this.etiquetas = etiquetas;
 
-    this.mostrarGasto = function() {
+    this.mostrarGasto = function () {
         return "Gasto correspondiente a " + descripcion + " con valor " + valor + " €";
     }
 
-    this.actualizarDescripcion = function(nuevaDescripcion){
-        if(typeof nuevaDescripcion === "string"){
+    this.actualizarDescripcion = function (nuevaDescripcion) {
+        if (typeof nuevaDescripcion === "string") {
             this.descripcion = nuevaDescripcion;
         }
     }
 
-    this.actualizarValor = function(nuevoValor){
+    this.actualizarValor = function (nuevoValor) {
         if (!isNaN(nuevoValor) && nuevoValor > 0) {
             this.valor = nuevoValor;
         }
     }
 
-    this.mostrarGastoCompleto = function() {
+    this.mostrarGastoCompleto = function () {
         let fechaLocal = new Date(this.fecha).toLocaleString();
         let texto = `Gasto correspondiente a descripción del gasto con valor ${this.valor} €.
 Fecha: ${fechaLocal}
@@ -62,16 +62,16 @@ Etiquetas:
         return texto;
     }
 
-    this.actualizarFecha = function(fecha) {
+    this.actualizarFecha = function (fecha) {
         let fechaParseada = Date.parse(fecha);
-        if (!isNaN(fechaParseada)){
+        if (!isNaN(fechaParseada)) {
             this.fecha = fechaParseada;
         }
     }
 
     this.anyadirEtiquetas = function (...etiquetasNuevas) {
         for (let etiqueta of etiquetasNuevas) {
-            if(!this.etiquetas.includes(etiqueta, 0)) {
+            if (!this.etiquetas.includes(etiqueta, 0)) {
                 this.etiquetas.push(etiqueta);
             }
         }
@@ -90,10 +90,10 @@ Etiquetas:
         let fechaDividida = fecha.split('-');
         let periodoAgrupacion = fechaDividida[0];
 
-        if(periodo == "mes") {
+        if (periodo == "mes") {
             periodoAgrupacion += "-" + fechaDividida[1];
         }
-        if(periodo == "dia") {
+        if (periodo == "dia") {
             periodoAgrupacion += "-" + fechaDividida[1] + "-" + fechaDividida[2];
         }
         return periodoAgrupacion;
@@ -122,7 +122,7 @@ function borrarGasto(idABorrar) {
 
 function calcularTotalGastos() {
     let total = 0;
-    for (let gasto of gastos){
+    for (let gasto of gastos) {
         total += gasto.valor;
     }
     return total;
@@ -132,8 +132,57 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos() {
-    //TODO
+function filtrarGastos(filtro) {
+    let gastosFiltrados = gastos.filter(function (gasto) {
+
+        if (filtro.hasOwnProperty("fechaDesde")) {
+            if (gasto.fecha < Date.parse(filtro.fechaDesde)) {
+                return false;
+            }
+        }
+
+        if (filtro.hasOwnProperty("fechaHasta")) {
+            if (gasto.fecha > Date.parse(filtro.fechaHasta)) {
+                return false;
+            }
+        }
+
+        if (filtro.hasOwnProperty("valorMinimo")) {
+            if (gasto.valor < filtro.valorMinimo) {
+                return false;
+            }
+        }
+
+        if (filtro.hasOwnProperty("valorMaximo")) {
+            if (gasto.valor > filtro.valorMaximo) {
+                return false;
+            }
+        }
+
+        if (filtro.hasOwnProperty("descripcionContiene")) {
+            if (!gasto.descripcion.toLowerCase().includes(filtro.descripcionContiene.toLowerCase())) {
+                return false;
+            }
+        }
+
+        if (filtro.hasOwnProperty("etiquetasTiene")) {
+            let tieneEtiqueta = false;
+            filtro.etiquetasTiene.forEach(function (etiqueta) {
+                if (gasto.etiquetas.includes(etiqueta.toLowerCase())) {
+                    tieneEtiqueta = true;
+                }
+            });
+            if (!tieneEtiqueta) {
+                return false;
+            }
+        }
+        return true;
+    });
+
+    if (gastosFiltrados.length == 0) {
+        gastosFiltrados = gastos;
+    }
+    return gastosFiltrados;
 }
 
 function agruparGastos() {
@@ -144,7 +193,7 @@ function agruparGastos() {
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
-export   {
+export {
     mostrarPresupuesto,
     actualizarPresupuesto,
     CrearGasto,
