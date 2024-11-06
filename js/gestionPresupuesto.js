@@ -87,7 +87,8 @@ Etiquetas:
     }
 
     this.obtenerPeriodoAgrupacion = function (periodo) {
-        let fechaDividida = fecha.split('-');
+        let fechaPartidaEn2 = new Date(this.fecha).toISOString().split('T');
+        let fechaDividida = fechaPartidaEn2[0].split('-');
         let periodoAgrupacion = fechaDividida[0];
 
         if (periodo == "mes") {
@@ -185,8 +186,31 @@ function filtrarGastos(filtro) {
     return gastosFiltrados;
 }
 
-function agruparGastos() {
-    //TODO
+function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta = Date.now()) {
+    
+    let filtro = {};
+    
+    if(etiquetas.length > 0) {
+        filtro = {
+            etiquetasTiene: etiquetas,
+            fechaDesde: fechaDesde,
+            fechaHasta: fechaHasta
+        }
+    }
+
+    let gastosFiltrados = filtrarGastos(filtro);
+
+    return gastosFiltrados.reduce(function(acc, gasto){
+        let periodoAgrupacion = gasto.obtenerPeriodoAgrupacion(periodo);
+
+        if(!acc[periodoAgrupacion]) {
+            acc[periodoAgrupacion] = 0;
+        }
+
+        acc[periodoAgrupacion] += gasto.valor;
+
+        return acc;
+    }, {});
 }
 
 
