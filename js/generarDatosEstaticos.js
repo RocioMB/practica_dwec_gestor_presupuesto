@@ -51,3 +51,6 @@ let gastosFiltrados4 = filtrarGastos(filtro4);
 for (let gasto of gastosFiltrados4) {
     mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
 }
+
+let agrup1 = agruparGastos("dia");
+mostrarGastosAgrupadosWeb("agrupacion-dia", agrup1, "día");
