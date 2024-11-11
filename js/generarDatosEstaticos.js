@@ -28,10 +28,14 @@ for (let gasto of listarGastos()) {
     mostrarGastoWeb("listado-gastos-completo", gasto);
 }
 
-let filtro = {fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"};
-let gastosFiltrados1 = filtrarGastos(filtro);
+let filtro1 = {fechaDesde: "2021-09-01", fechaHasta: "2021-09-30"};
+let gastosFiltrados1 = filtrarGastos(filtro1);
 for (let gasto of gastosFiltrados1) {
     mostrarGastoWeb("listado-gastos-filtrado-1", gasto);
 }
 
-
+let filtro2 = {valorMinimo: 50};
+let gastosFiltrados2 = filtrarGastos(filtro2);
+for (let gasto of gastosFiltrados2) {
+    mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
+}
