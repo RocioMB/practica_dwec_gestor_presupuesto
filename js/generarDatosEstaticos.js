@@ -45,3 +45,9 @@ let gastosFiltrados3 = filtrarGastos(filtro3);
 for (let gasto of gastosFiltrados3) {
     mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
 }
+
+let filtro4 = {valorMaximo: 50, etiquetasTiene: ["comida", "transporte"]};
+let gastosFiltrados4 = filtrarGastos(filtro4);
+for (let gasto of gastosFiltrados4) {
+    mostrarGastoWeb("listado-gastos-filtrado-4", gasto);
+}
