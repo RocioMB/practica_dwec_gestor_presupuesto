@@ -15,11 +15,18 @@ let gasto6 = new CrearGasto("Seguro coche", 195.78, "2021-10-06", "transporte", 
 
 anyadirGasto(gasto1);
 anyadirGasto(gasto2);
-anyadirGasto(gasto3);
-anyadirGasto(gasto4);
-anyadirGasto(gasto5);
-anyadirGasto(gasto6);
+// anyadirGasto(gasto3);
+// anyadirGasto(gasto4);
+// anyadirGasto(gasto5);
+//anyadirGasto(gasto6);
 
 mostrarDatoEnId("gastos-totales", calcularTotalGastos());
 
 mostrarDatoEnId("balance-total", calcularBalance());
+
+for (let gasto of listarGastos()) {
+    mostrarGastoWeb("listado-gastos-completo", gasto);
+    console.log(gasto);
+}
+
+

@@ -9,13 +9,17 @@ function mostrarGastoWeb(idElemento, gasto) {
     let fechaGasto = new Date(gasto.fecha).toLocaleString();
     let etiquetasGasto = "";
     for (let etiqueta of gasto.etiquetas) {
-        etiquetasGasto += '<span class="gasto-etiquetas-etiqueta">' + etiqueta + '</span>';
+        etiquetasGasto += '<span class="gasto-etiquetas-etiqueta">' + etiqueta + '</span> ';
     }
-    elemento.innerHTML = '<div class="gasto">' + 
-         '<div class="gasto-descripcion">' + gasto.descripcion + '</div>' +
+
+    let nodoDiv = document.createElement("div");
+    nodoDiv.classList.add("gasto");
+    nodoDiv.innerHTML = '<div class="gasto-descripcion">' + gasto.descripcion + '</div>' +
          '<div class="gasto-fecha">' + fechaGasto + '</div>' + 
          '<div class="gasto-valor">' + gasto.valor + '</div>' +
-         '<div class="gasto-etiquetas">' + etiquetasGasto + '</div></div>';
+         '<div class="gasto-etiquetas">' + etiquetasGasto + '</div>';
+
+    elemento.appendChild(nodoDiv);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
