@@ -39,3 +39,9 @@ let gastosFiltrados2 = filtrarGastos(filtro2);
 for (let gasto of gastosFiltrados2) {
     mostrarGastoWeb("listado-gastos-filtrado-2", gasto);
 }
+
+let filtro3 = {valorMinimo: 200, etiquetasTiene: ["seguros"]};
+let gastosFiltrados3 = filtrarGastos(filtro3);
+for (let gasto of gastosFiltrados3) {
+    mostrarGastoWeb("listado-gastos-filtrado-3", gasto);
+}
