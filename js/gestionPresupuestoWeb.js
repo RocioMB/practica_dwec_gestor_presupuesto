@@ -21,19 +21,29 @@ function mostrarGastoWeb(idElemento, gasto) {
         '<div class="gasto-valor">' + gasto.valor + '</div>' +
         '<div class="gasto-etiquetas">' + etiquetasGasto + '</div>';
 
-    // elemento.appendChild(nodoDiv);
-
-    let boton = document.createElement("button");
-    boton.innerText = "Editar";
-    boton.setAttribute("type", "button");
-    boton.classList.add("gasto-editar");
+    let botonEditar = document.createElement("button");
+    botonEditar.innerText = "Editar";
+    botonEditar.setAttribute("type", "button");
+    botonEditar.classList.add("gasto-editar");
 
     let manejadorEditarGasto = new EditarHandle();
     manejadorEditarGasto.gasto = gasto;
 
-    boton.addEventListener("click", manejadorEditarGasto);
+    botonEditar.addEventListener("click", manejadorEditarGasto);
 
-    nodoDiv.appendChild(boton);
+
+    let botonBorrar = document.createElement("button");
+    botonBorrar.innerText = "Borrar";
+    botonBorrar.setAttribute("type", "button");
+    botonBorrar.classList.add("gasto-borrar");
+
+    let manejadorBorrarGasto = new BorrarHandle();
+    manejadorBorrarGasto.gasto = gasto;
+
+    botonBorrar.addEventListener("click", manejadorBorrarGasto);
+
+    nodoDiv.appendChild(botonEditar);
+    nodoDiv.appendChild(botonBorrar);
     elemento.appendChild(nodoDiv);
 }
 
@@ -66,7 +76,7 @@ function repintar() {
 
 function actualizarPresupuestoWeb() {
     let presupuestoIntroducido = prompt('Introduzca presupuesto:', '');
-    presupuestoIntroducido = parseInt(presupuestoIntroducido);
+    presupuestoIntroducido = parseFloat(presupuestoIntroducido);
 
     gp.actualizarPresupuesto(presupuestoIntroducido);
 
@@ -79,7 +89,7 @@ botonActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
 function nuevoGastoWeb() {
     let descripcion = prompt('Introduzca una descripción:', '');
     let valor = prompt('Introduzca un valor:', '');
-    valor = parseInt(valor);
+    valor = parseFloat(valor);
     let fecha = prompt('Introduzca una fecha', '');
     let etiquetas = prompt('Introduzca etiquetas:', '');
     etiquetas = etiquetas.split(',');
@@ -95,12 +105,14 @@ let botonAnyadirGasto = document.getElementById("anyadirgasto");
 botonAnyadirGasto.addEventListener("click", nuevoGastoWeb);
 
 function EditarHandle() {
-    this.handleEvent = function (evento) {
+    this.handleEvent = function(evento) {
+        // Evitamos que se ejecute la acción del botón, si botón fuera tipo submit
+        evento.preventDefault();
         let descripcion = prompt('Introduzca una descripción:', this.gasto.descripcion);
         let valor = prompt('Introduzca un valor:', this.gasto.valor);
-        valor = parseInt(valor);
+        valor = parseFloat(valor);
         let fecha = prompt('Introduzca una fecha', this.gasto.fecha);
-        //El valor por defecto(parametro 2) del prompt debe ser un string (convertimos de array a string con join)
+        // El valor por defecto(parametro 2) del prompt debe ser un string (convertimos de array a string con join)
         let etiquetas = prompt('Introduzca etiquetas:', this.gasto.etiquetas.join(','));
         etiquetas = etiquetas.split(',');
 
@@ -112,6 +124,15 @@ function EditarHandle() {
 
         repintar();
     }  
+}
+
+function BorrarHandle() {
+    this.handleEvent = function(evento) {
+        evento.preventDefault();
+        gp.borrarGasto(this.gasto.id);
+
+        repintar();
+    }
 }
 
 export {
