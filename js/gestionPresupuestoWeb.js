@@ -29,9 +29,23 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     let nodoDiv = document.createElement("div");
     nodoDiv.classList.add("gasto");
-    nodoDiv.innerHTML = '<div class="gasto-descripcion">' + gasto.descripcion + '</div>' +
-        '<div class="gasto-fecha">' + fechaGasto + '</div>' +
-        '<div class="gasto-valor">' + gasto.valor + '</div>';
+
+    let divGastoDescripcion = document.createElement("div");
+    divGastoDescripcion.classList.add("gasto-descripcion");
+    divGastoDescripcion.innerText = gasto.descripcion;
+
+    let divGastoFecha = document.createElement("div");
+    divGastoFecha.classList.add("gasto-fecha");
+    divGastoFecha.innerText = fechaGasto;
+
+    let divGastoValor = document.createElement("div");
+    divGastoValor.classList.add("gasto-valor");
+    divGastoValor.innerText = gasto.valor;
+
+    nodoDiv.appendChild(divGastoDescripcion);
+    nodoDiv.appendChild(divGastoFecha);
+    nodoDiv.appendChild(divGastoValor);
+    nodoDiv.appendChild(divEtiquetas);
 
     let botonEditar = document.createElement("button");
     botonEditar.innerText = "Editar";
@@ -43,7 +57,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     botonEditar.addEventListener("click", manejadorEditarGasto);
 
-    
+
     let botonBorrar = document.createElement("button");
     botonBorrar.innerText = "Borrar";
     botonBorrar.setAttribute("type", "button");
@@ -57,7 +71,6 @@ function mostrarGastoWeb(idElemento, gasto) {
     nodoDiv.appendChild(botonEditar);
     nodoDiv.appendChild(botonBorrar);
     elemento.appendChild(nodoDiv);
-    nodoDiv.appendChild(divEtiquetas);
 }
 
 function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
