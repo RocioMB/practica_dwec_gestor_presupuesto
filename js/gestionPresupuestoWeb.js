@@ -75,8 +75,12 @@ function mostrarGastoWeb(idElemento, gasto) {
     botonEditarGastoFormulario.setAttribute("type", "button");
     botonEditarGastoFormulario.classList.add("gasto-editar-formulario");
 
-    // TODO: Aquí añado el objeto manejador y addEventListener del boton
+    let manejadorEditarGastoFormulario = new EditarHandleFormulario();
+    manejadorEditarGastoFormulario.gasto = gasto;
+    manejadorEditarGastoFormulario.nodoDiv = nodoDiv;
+    manejadorEditarGastoFormulario.botonEditarGastoFormulario = botonEditarGastoFormulario;
 
+    botonEditarGastoFormulario.addEventListener("click", manejadorEditarGastoFormulario);
 
     // Se añaden botones y div gasto al DOM
     nodoDiv.appendChild(botonEditar);
@@ -193,7 +197,6 @@ function nuevoGastoWebFormulario() {
 
     formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
-        console.log("Formulario enviado");
 
         let formularioAnyadirGasto = evento.currentTarget;
         let descripcion = formularioAnyadirGasto.elements.descripcion.value;
@@ -230,6 +233,71 @@ function nuevoGastoWebFormulario() {
 
 let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
 botonAnyadirGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
+
+function EditarHandleFormulario() {
+    this.handleEvent = function (evento) {
+        let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+        this.nodoDiv.appendChild(plantillaFormulario);
+
+        this.botonEditarGastoFormulario.setAttribute("disabled", true);
+
+        var formulario = this.nodoDiv.querySelector("form");
+
+        // Se le da valores (el valor del gasto actual) a los inputs del formulario
+        formulario.elements.descripcion.value = this.gasto.descripcion;
+        formulario.elements.valor.value = parseFloat(this.gasto.valor);
+        let fecha = new Date(this.gasto.fecha).toISOString();
+        fecha = fecha.split('T');
+        formulario.elements.fecha.value = fecha[0];
+        formulario.elements.etiquetas.value = this.gasto.etiquetas;
+
+        // Funcion constructora boton Enviar
+        function EnviarHandle() {
+            this.handleEvent = function (evento) {
+                evento.preventDefault();
+
+                // Se accede al formulario (el elemento sobre el que sucede el addEventListener)
+                formulario = evento.currentTarget;
+
+                // A cada propiedad de gasto, se le da el valor que se ha modificado de los inputs
+                let descripcion = formulario.elements.descripcion.value;
+                let valor = parseFloat(formulario.elements.valor.value);
+                let fecha = formulario.elements.fecha.value;
+                let etiquetas = formulario.elements.etiquetas.value;
+                etiquetas = etiquetas.split(',');
+
+                this.gasto.actualizarDescripcion(descripcion);
+                this.gasto.actualizarValor(valor);
+                this.gasto.actualizarFecha(fecha);
+                this.gasto.etiquetas = [];
+                this.gasto.anyadirEtiquetas(etiquetas);
+
+                repintar();
+            }
+        }
+
+        let manejadorEnviarHandleFormulario = new EnviarHandle();
+        manejadorEnviarHandleFormulario.gasto = this.gasto;
+
+        formulario.addEventListener('submit', manejadorEnviarHandleFormulario)
+
+        // Funcion constructora boton Cancelar
+        function CancelarHandle() {
+            this.handleEvent = function (evento) {
+                this.formulario.remove();
+                this.botonEditarGastoFormulario.removeAttribute("disabled");
+            }
+        }
+
+        let manejadorCancelarFormulario = new CancelarHandle();
+        manejadorCancelarFormulario.formulario = formulario;
+        manejadorCancelarFormulario.botonEditarGastoFormulario = this.botonEditarGastoFormulario;
+
+        let botonCancelar = formulario.querySelector("button.cancelar");
+        botonCancelar.addEventListener("click", manejadorCancelarFormulario);
+
+    }
+}
 
 
 
