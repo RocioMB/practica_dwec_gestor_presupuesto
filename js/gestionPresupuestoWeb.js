@@ -170,6 +170,44 @@ function BorrarEtiquetasHandle() {
     }
 }
 
+function nuevoGastoWebFormulario() {
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    let contenedorFormulario = document.getElementById("controlesprincipales");
+    contenedorFormulario.append(plantillaFormulario);
+
+    botonAnyadirGastoFormulario.setAttribute("disabled", true);
+
+    var formulario = contenedorFormulario.querySelector("form");
+
+    formulario.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        console.log("Formulario enviado");
+
+        let formularioAnyadirGasto = evento.currentTarget;
+        let descripcion = formularioAnyadirGasto.elements.descripcion.value;
+        let valor = formularioAnyadirGasto.elements.valor.value;
+        valor = parseFloat(valor);
+        let fecha = formularioAnyadirGasto.elements.fecha.value; //Esto es un string ¿cambiar a timestamp?
+        let etiquetas = formularioAnyadirGasto.elements.etiquetas.value;
+        etiquetas = etiquetas.split(',');
+
+        let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
+
+        gp.anyadirGasto(gasto);
+
+        repintar();
+
+        botonAnyadirGastoFormulario.removeAttribute("disabled");
+    });
+
+
+}
+
+let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
+botonAnyadirGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
+
+
+
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
