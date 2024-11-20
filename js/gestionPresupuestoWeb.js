@@ -200,6 +200,19 @@ function nuevoGastoWebFormulario() {
         botonAnyadirGastoFormulario.removeAttribute("disabled");
     });
 
+    function CancelarHandle() {
+        this.handleEvent = function (evento) {
+            this.formulario.remove();
+            botonAnyadirGastoFormulario.removeAttribute("disabled");
+        }
+    }
+
+    let manejadorCancelarFormulario = new CancelarHandle();
+    manejadorCancelarFormulario.formulario = formulario;
+
+    let botonCancelar = formulario.querySelector("button.cancelar");
+    botonCancelar.addEventListener("click", manejadorCancelarFormulario);
+
 
 }
 
