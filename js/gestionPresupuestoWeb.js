@@ -206,7 +206,7 @@ function nuevoGastoWebFormulario() {
         let etiquetas = formularioAnyadirGasto.elements.etiquetas.value;
         etiquetas = etiquetas.split(',');
 
-        let gasto = new gp.CrearGasto(descripcion, valor, fecha, etiquetas);
+        let gasto = new gp.CrearGasto(descripcion, valor, fecha, ...etiquetas);
 
         gp.anyadirGasto(gasto);
 
@@ -270,7 +270,7 @@ function EditarHandleFormulario() {
                 this.gasto.actualizarValor(valor);
                 this.gasto.actualizarFecha(fecha);
                 this.gasto.etiquetas = [];
-                this.gasto.anyadirEtiquetas(etiquetas);
+                this.gasto.anyadirEtiquetas(...etiquetas);
 
                 repintar();
             }
