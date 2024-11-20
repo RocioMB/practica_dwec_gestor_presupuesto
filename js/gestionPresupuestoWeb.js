@@ -47,6 +47,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     nodoDiv.appendChild(divGastoValor);
     nodoDiv.appendChild(divEtiquetas);
 
+    // Botón Editar Gasto
     let botonEditar = document.createElement("button");
     botonEditar.innerText = "Editar";
     botonEditar.setAttribute("type", "button");
@@ -57,7 +58,7 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     botonEditar.addEventListener("click", manejadorEditarGasto);
 
-
+    // Boton Borrar Gasto
     let botonBorrar = document.createElement("button");
     botonBorrar.innerText = "Borrar";
     botonBorrar.setAttribute("type", "button");
@@ -68,8 +69,19 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     botonBorrar.addEventListener("click", manejadorBorrarGasto);
 
+    // Boton Editar Gasto-Formulario
+    let botonEditarGastoFormulario = document.createElement("button");
+    botonEditarGastoFormulario.innerText = "Editar (formulario)";
+    botonEditarGastoFormulario.setAttribute("type", "button");
+    botonEditarGastoFormulario.classList.add("gasto-editar-formulario");
+
+    // TODO: Aquí añado el objeto manejador y addEventListener del boton
+
+
+    // Se añaden botones y div gasto al DOM
     nodoDiv.appendChild(botonEditar);
     nodoDiv.appendChild(botonBorrar);
+    nodoDiv.appendChild(botonEditarGastoFormulario);
     elemento.appendChild(nodoDiv);
 }
 
