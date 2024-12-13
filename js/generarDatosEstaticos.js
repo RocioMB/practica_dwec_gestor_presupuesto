@@ -1,4 +1,4 @@
-import {mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb} from './gestionPresupuestoWeb.js';
+import {mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb, filtrarGastosWeb} from './gestionPresupuestoWeb.js';
 
 import {mostrarPresupuesto, actualizarPresupuesto, CrearGasto, listarGastos, anyadirGasto, borrarGasto, calcularTotalGastos, calcularBalance, filtrarGastos, agruparGastos, transformarListadoEtiquetas} from './gestionPresupuesto.js';
 

@@ -299,10 +299,79 @@ function EditarHandleFormulario() {
     }
 }
 
+function filtrarGastosWeb(evento) {
+    evento.preventDefault();
+
+    // Se recogen los datos del formulario
+    let inputDescripcion = document.getElementById("formulario-filtrado-descripcion");
+    let descripcionContiene = inputDescripcion.value;
+
+    let inputValorMin = document.getElementById("formulario-filtrado-valor-minimo");
+    let valorMinimo = inputValorMin.value;
+    valorMinimo = parseFloat(valorMinimo);
+
+    let inputValorMax = document.getElementById("formulario-filtrado-valor-maximo");
+    let valorMaximo = inputValorMax.value;
+    valorMaximo = parseFloat(valorMaximo);
+
+    let inputFechaDesde = document.getElementById("formulario-filtrado-fecha-desde");
+    let fechaDesde = inputFechaDesde.value;
+
+    let inputFechaHasta = document.getElementById("formulario-filtrado-fecha-hasta");
+    let fechaHasta = inputFechaHasta.value;
+
+    let inputEtiquetas = document.getElementById("formulario-filtrado-etiquetas-tiene");
+    let etiquetasTiene = inputEtiquetas.value;
+    // Si tiene datos se llama a la función transformarListadoEtiquetas
+    if (etiquetasTiene.length > 0) {
+        etiquetasTiene = gp.transformarListadoEtiquetas(etiquetasTiene);
+    }
+    // Si no, se devuelve array vacío
+    else {
+        etiquetasTiene = [];
+    }
+
+    // Se crea objeto filtro y se pasa a filtrarGastos
+    let filtro = {};
+
+    if (descripcionContiene.length > 0) {
+        filtro.descripcionContiene = descripcionContiene;
+    }
+    if (!isNaN(valorMinimo)) {
+        filtro.valorMinimo = valorMinimo;
+    }
+    if (!isNaN(valorMaximo)) {
+        filtro.valorMaximo = valorMaximo;
+    }
+    if (fechaDesde.length > 0) {
+        filtro.fechaDesde = fechaDesde;
+    }
+    if (fechaHasta.length > 0) {
+        filtro.fechaHasta = fechaHasta;
+    }
+    if (etiquetasTiene.length > 0) {
+        filtro.etiquetasTiene = etiquetasTiene;
+    }
+
+    let gastosFiltrados = gp.filtrarGastos(filtro);
+
+    // Se borra el listado de gastos primero, y luego se actualiza.
+    let listadoGastos = document.getElementById('listado-gastos-completo');
+    listadoGastos.innerHTML = '';
+    for (let gasto of gastosFiltrados) {
+        mostrarGastoWeb("listado-gastos-completo", gasto);
+    }
+}
+
+let formularioFiltrado = document.getElementById("formulario-filtrado");
+formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
+
+
 
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
-    mostrarGastosAgrupadosWeb
+    mostrarGastosAgrupadosWeb,
+    filtrarGastosWeb
 }
