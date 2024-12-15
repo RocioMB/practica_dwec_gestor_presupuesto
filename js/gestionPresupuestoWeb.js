@@ -367,12 +367,35 @@ let formularioFiltrado = document.getElementById("formulario-filtrado");
 formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 
 function guardarGastosWeb() {
+    // Se pasa a string el listado de gastos
     let gastosAlmacenamiento = JSON.stringify(gp.listarGastos());
+    // Y se guarda en la clave GestorGastosDWEC
     localStorage.setItem("GestorGastosDWEC", gastosAlmacenamiento);
 }
 
 let botonGuardarGastos = document.getElementById("guardar-gastos");
 botonGuardarGastos.addEventListener("click", guardarGastosWeb);
+
+function cargarGastosWeb() {
+    // Se recupera el valor almacenado
+    let gastosAlmacenamiento = localStorage.getItem("GestorGastosDWEC");
+
+    // Si no existe la clave en el localStorage, se carga un array vacío
+    if (gastosAlmacenamiento == null) {
+        let arrayVacio = [];
+        gp.cargarGastos(arrayVacio);
+    }
+    // Si existe, se parsea a un array y se le pasa a cargarGastos
+    else {
+        let gastosRecuperados = JSON.parse(gastosAlmacenamiento);
+        gp.cargarGastos(gastosRecuperados);
+    }
+
+    repintar();
+}
+
+let botonCargarGastos = document.getElementById("cargar-gastos");
+botonCargarGastos.addEventListener("click", cargarGastosWeb);
 
 
 export {
@@ -380,5 +403,6 @@ export {
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     filtrarGastosWeb,
-    guardarGastosWeb
+    guardarGastosWeb,
+    cargarGastosWeb
 }
