@@ -366,12 +366,19 @@ function filtrarGastosWeb(evento) {
 let formularioFiltrado = document.getElementById("formulario-filtrado");
 formularioFiltrado.addEventListener("submit", filtrarGastosWeb);
 
+function guardarGastosWeb() {
+    let gastosAlmacenamiento = JSON.stringify(gp.listarGastos());
+    localStorage.setItem("GestorGastosDWEC", gastosAlmacenamiento);
+}
 
+let botonGuardarGastos = document.getElementById("guardar-gastos");
+botonGuardarGastos.addEventListener("click", guardarGastosWeb);
 
 
 export {
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
-    filtrarGastosWeb
+    filtrarGastosWeb,
+    guardarGastosWeb
 }

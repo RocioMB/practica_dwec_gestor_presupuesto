@@ -1,6 +1,6 @@
-import {mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb, filtrarGastosWeb} from './gestionPresupuestoWeb.js';
+import {mostrarDatoEnId, mostrarGastoWeb, mostrarGastosAgrupadosWeb, filtrarGastosWeb, guardarGastosWeb} from './gestionPresupuestoWeb.js';
 
-import {mostrarPresupuesto, actualizarPresupuesto, CrearGasto, listarGastos, anyadirGasto, borrarGasto, calcularTotalGastos, calcularBalance, filtrarGastos, agruparGastos, transformarListadoEtiquetas} from './gestionPresupuesto.js';
+import {mostrarPresupuesto, actualizarPresupuesto, CrearGasto, listarGastos, anyadirGasto, borrarGasto, calcularTotalGastos, calcularBalance, filtrarGastos, agruparGastos, transformarListadoEtiquetas, cargarGastos} from './gestionPresupuesto.js';
 
 actualizarPresupuesto(1500);
 
