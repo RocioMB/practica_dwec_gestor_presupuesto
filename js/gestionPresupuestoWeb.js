@@ -69,6 +69,14 @@ function mostrarGastoWeb(idElemento, gasto) {
 
     botonBorrar.addEventListener("click", manejadorBorrarGasto);
 
+    // Boton Borrar Gasto Api
+    let botonBorrarApi = document.createElement("button");
+    botonBorrarApi.innerText = "Borrar (API)";
+    botonBorrarApi.setAttribute("type", "button");
+    botonBorrarApi.classList.add("gasto-borrar-api");
+
+    // TODO Añadir código objeto manejador y EventListener del boton
+
     // Boton Editar Gasto-Formulario
     let botonEditarGastoFormulario = document.createElement("button");
     botonEditarGastoFormulario.innerText = "Editar (formulario)";
@@ -85,6 +93,7 @@ function mostrarGastoWeb(idElemento, gasto) {
     // Se añaden botones y div gasto al DOM
     nodoDiv.appendChild(botonEditar);
     nodoDiv.appendChild(botonBorrar);
+    nodoDiv.appendChild(botonBorrarApi);
     nodoDiv.appendChild(botonEditarGastoFormulario);
     elemento.appendChild(nodoDiv);
 }
