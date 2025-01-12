@@ -397,6 +397,34 @@ function cargarGastosWeb() {
 let botonCargarGastos = document.getElementById("cargar-gastos");
 botonCargarGastos.addEventListener("click", cargarGastosWeb);
 
+function cargarGastosApi() {
+    // Se obtiene el valor del nombre de usuario
+    let usuario = document.getElementById("nombre_usuario").value;
+
+    // Traemos el listado de gastos del usuario
+    fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
+    {
+        method: "GET"
+    })
+    .then(function(respuesta){
+        if(respuesta.ok) {
+            return respuesta.json();
+        } else {
+            throw("Ha habido un error");
+        }
+    })
+    .then(function(gastos_json){
+
+        gp.cargarGastos(JSON.parse(gastos_json));
+        repintar();
+    })
+    .catch(function(error) {
+        console.log(`Error: ${error.message}`);
+    })
+}
+
+let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
+botonCargarGastosApi.addEventListener("click", cargarGastosApi);
 
 export {
     mostrarDatoEnId,
@@ -404,5 +432,6 @@ export {
     mostrarGastosAgrupadosWeb,
     filtrarGastosWeb,
     guardarGastosWeb,
-    cargarGastosWeb
+    cargarGastosWeb,
+    cargarGastosApi
 }
