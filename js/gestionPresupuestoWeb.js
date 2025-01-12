@@ -75,7 +75,10 @@ function mostrarGastoWeb(idElemento, gasto) {
     botonBorrarApi.setAttribute("type", "button");
     botonBorrarApi.classList.add("gasto-borrar-api");
 
-    // TODO Añadir código objeto manejador y EventListener del boton
+    let manejadorBorrarGastoApi = new BorrarHandleApi();
+    manejadorBorrarGastoApi.gasto = gasto;
+
+    botonBorrarApi.addEventListener("click", manejadorBorrarGastoApi);
 
     // Boton Editar Gasto-Formulario
     let botonEditarGastoFormulario = document.createElement("button");
@@ -434,6 +437,28 @@ function cargarGastosApi() {
 
 let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
 botonCargarGastosApi.addEventListener("click", cargarGastosApi);
+
+function BorrarHandleApi() {
+    this.handleEvent = function (evento) {
+        let usuario = document.getElementById("nombre_usuario").value;
+
+        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`,
+        {
+            method: "DELETE"
+        })
+        .then(function(respuesta) {
+            if(respuesta.ok) {
+                console.log("Gasto borrado con éxito");
+                cargarGastosApi();
+            } else {
+                throw("Ha habido un error");
+            }
+        })
+        .catch(function(error) {
+            console.log(`Error: ${error.message}`);
+        });
+    }
+}
 
 export {
     mostrarDatoEnId,
