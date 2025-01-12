@@ -415,7 +415,7 @@ function cargarGastosApi() {
     })
     .then(function(gastos_json){
 
-        gp.cargarGastos(JSON.parse(gastos_json));
+        gp.cargarGastos(gastos_json);
         repintar();
     })
     .catch(function(error) {
