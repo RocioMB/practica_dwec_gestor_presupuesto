@@ -240,6 +240,32 @@ function nuevoGastoWebFormulario() {
     let botonCancelar = formulario.querySelector("button.cancelar");
     botonCancelar.addEventListener("click", manejadorCancelarFormulario);
 
+    // REVISAR Boton .gasto-enviar-api
+    function enviarGastoApi() {
+        let usuario = document.getElementById("nombre_usuario").value;
+        
+        fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
+            {
+                method: "POST",
+                body: new FormData(formulario)
+            })
+            .then(function (respuesta) {
+                if (respuesta.ok) {
+                    console.log("Gasto añadido con éxito");
+                    // TODO ¿Cómo proceso la respuesta con formData()?
+                    cargarGastosApi();
+                } else {
+                    throw ("Ha habido un error");
+                }
+            })
+            .catch(function (error) {
+                console.log(`Error: ${error.message}`);
+            })
+            
+    }
+
+    let botonGastoEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+    botonGastoEnviarApi.addEventListener("click", enviarGastoApi);
 
 }
 
@@ -415,24 +441,24 @@ function cargarGastosApi() {
 
     // Traemos el listado de gastos del usuario
     fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
-    {
-        method: "GET"
-    })
-    .then(function(respuesta){
-        if(respuesta.ok) {
-            return respuesta.json();
-        } else {
-            throw("Ha habido un error");
-        }
-    })
-    .then(function(gastos_json){
+        {
+            method: "GET"
+        })
+        .then(function (respuesta) {
+            if (respuesta.ok) {
+                return respuesta.json();
+            } else {
+                throw ("Ha habido un error");
+            }
+        })
+        .then(function (gastos_json) {
 
-        gp.cargarGastos(gastos_json);
-        repintar();
-    })
-    .catch(function(error) {
-        console.log(`Error: ${error.message}`);
-    })
+            gp.cargarGastos(gastos_json);
+            repintar();
+        })
+        .catch(function (error) {
+            console.log(`Error: ${error.message}`);
+        })
 }
 
 let botonCargarGastosApi = document.getElementById("cargar-gastos-api");
@@ -443,20 +469,20 @@ function BorrarHandleApi() {
         let usuario = document.getElementById("nombre_usuario").value;
 
         fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`,
-        {
-            method: "DELETE"
-        })
-        .then(function(respuesta) {
-            if(respuesta.ok) {
-                console.log("Gasto borrado con éxito");
-                cargarGastosApi();
-            } else {
-                throw("Ha habido un error");
-            }
-        })
-        .catch(function(error) {
-            console.log(`Error: ${error.message}`);
-        });
+            {
+                method: "DELETE"
+            })
+            .then(function (respuesta) {
+                if (respuesta.ok) {
+                    console.log("Gasto borrado con éxito");
+                    cargarGastosApi();
+                } else {
+                    throw ("Ha habido un error");
+                }
+            })
+            .catch(function (error) {
+                console.log(`Error: ${error.message}`);
+            });
     }
 }
 
