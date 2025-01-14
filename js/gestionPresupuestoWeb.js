@@ -248,11 +248,13 @@ function nuevoGastoWebFormulario() {
         let formularioDatos = new FormData(formulario);
         // Accedemos a los valores del formulario mediante el método get de FormData
         // y construimos un objeto gasto
+        // Para poder separar las etiquetas, pasamos un parámetro
+        let etiquetas = formularioDatos.get('etiquetas').split(',');
         let gasto = new gp.CrearGasto(
             formularioDatos.get('descripcion'),
             formularioDatos.get('valor'),
             formularioDatos.get('fecha'),
-            formularioDatos.get('etiquetas')
+            ...etiquetas
         );
         console.log(gasto);
 
@@ -348,6 +350,51 @@ function EditarHandleFormulario() {
 
         let botonCancelar = formulario.querySelector("button.cancelar");
         botonCancelar.addEventListener("click", manejadorCancelarFormulario);
+
+        // Función constructora del boton .gasto-enviar-api
+        function EnviarApiHandle() {
+            this.handleEvent = function (evento) {
+                let usuario = document.getElementById("nombre_usuario").value;
+
+                let formularioDatos = new FormData(formulario);
+
+                let etiquetas = formularioDatos.get('etiquetas').split(',');
+                let gasto = new gp.CrearGasto(
+                    formularioDatos.get('descripcion'),
+                    formularioDatos.get('valor'),
+                    formularioDatos.get('fecha'),
+                    ...etiquetas
+                );
+
+                fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}/${this.gasto.gastoId}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify(gasto)
+                    })
+                    .then(function (respuesta) {
+                        if (respuesta.ok) {
+                            console.log("Gasto editado con éxito");
+                            respuesta.json();
+                            cargarGastosApi();
+                        } else {
+                            throw ("Ha habido un error");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(`Error: ${error.message}`);
+                    })
+            }
+        }
+
+        let manejadorEnviarApiHandleFormulario = new EnviarApiHandle();
+        manejadorEnviarApiHandleFormulario.gasto = this.gasto;
+        manejadorEnviarApiHandleFormulario.formulario = formulario;
+
+        let botonGastoEnviarApi = formulario.querySelector("button.gasto-enviar-api");
+        botonGastoEnviarApi.addEventListener("click", manejadorEnviarApiHandleFormulario);
 
     }
 }
