@@ -240,19 +240,34 @@ function nuevoGastoWebFormulario() {
     let botonCancelar = formulario.querySelector("button.cancelar");
     botonCancelar.addEventListener("click", manejadorCancelarFormulario);
 
-    // REVISAR Boton .gasto-enviar-api
+    // Boton .gasto-enviar-api
     function enviarGastoApi() {
         let usuario = document.getElementById("nombre_usuario").value;
-        
+
+        // Construimos un objeto FormData que contiene los valores del formulario
+        let formularioDatos = new FormData(formulario);
+        // Accedemos a los valores del formulario mediante el método get de FormData
+        // y construimos un objeto gasto
+        let gasto = new gp.CrearGasto(
+            formularioDatos.get('descripcion'),
+            formularioDatos.get('valor'),
+            formularioDatos.get('fecha'),
+            formularioDatos.get('etiquetas')
+        );
+        console.log(gasto);
+
         fetch(`https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/${usuario}`,
             {
                 method: "POST",
-                body: new FormData(formulario)
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(gasto)
             })
             .then(function (respuesta) {
                 if (respuesta.ok) {
                     console.log("Gasto añadido con éxito");
-                    // TODO ¿Cómo proceso la respuesta con formData()?
+                    respuesta.json();
                     cargarGastosApi();
                 } else {
                     throw ("Ha habido un error");
@@ -261,7 +276,7 @@ function nuevoGastoWebFormulario() {
             .catch(function (error) {
                 console.log(`Error: ${error.message}`);
             })
-            
+
     }
 
     let botonGastoEnviarApi = formulario.querySelector("button.gasto-enviar-api");
